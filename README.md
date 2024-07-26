@@ -2,13 +2,13 @@
 
 ## Design Project
 
-- Figma:
-- Esquema do Banco de Dados:
+- Figma: https://www.figma.com/design/Nc60fB7zZJ6s4EovtARI37/Template-Sistema-Web?t=IaLNqabeGlNEBZzg-0
+- Esquema do Banco de Dados: https://dbdiagram.io/d/Sistemas-Web-Templates-66914fc69939893daec9137d
 
 ## Equipe
 
 Gerente: Kaleb
-Desenvolvedores: Maria e Demétrius
+Desenvolvedores: Maria, Demétrius, Weldo e Matheus
 
 ## Objetivo
 
