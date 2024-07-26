@@ -8,6 +8,7 @@
 ## Equipe
 
 Gerente: Kaleb
+
 Desenvolvedores: Maria, Demétrius, Weldo e Matheus
 
 ## Objetivo
