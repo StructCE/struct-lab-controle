@@ -108,7 +108,7 @@ CardComponent.Image = function CardComponentImage(
 
 type CardComponentButtonProps = {
   icon?: React.ReactNode;
-  handlePress: () => void;
+  handlePress?: () => void;
   className?: string;
   children: string;
 };
@@ -121,13 +121,11 @@ CardComponent.Button = function CardComponentButton(
     props.className,
   );
   return (
-    // <div className={style}>
     <button onClick={props.handlePress} className={style}>
       {props.icon}
       <CardComponent.Text className="font-[16px] text-primary">
         {props.children}
       </CardComponent.Text>
     </button>
-    // </div>
   );
 };
