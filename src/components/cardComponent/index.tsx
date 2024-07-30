@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
 import React from "react";
-import { CldImage } from "../app/cldImage";
 
 type CardProps = {
   className?: string;
@@ -79,7 +78,7 @@ type CardComponentGridProps = {
 };
 
 CardComponent.Grid = function CardComponentGrid(props: CardComponentGridProps) {
-  const style = cn("flex grid-flow-row grid-cols-4", props.className);
+  const style = cn("grid grid-flow-row grid-cols-4", props.className);
   return <div className={style}>{props.children}</div>;
 };
 
