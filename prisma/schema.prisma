@@ -10,11 +10,52 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model User {
+    id String @id @default(cuid())
+    userName String
+    email String
+    is_admin Boolean
+    userActions UserAction[]
+}
 
-    @@index([name])
+model Category {
+    id String @id @default(cuid())
+    name String
+    description String
+    products Product[]
+}
+
+model Supplier {
+    id String @id @default(cuid())
+    name String
+    contactInfo String
+    products Product[]
+}
+
+model Product {
+    id String @id @default(cuid())
+    name String
+    currentQuantity Int
+    minQuantity Int
+    unitType String
+    purchasePrice Float
+    manufactureDate DateTime
+    expirationDate DateTime
+    categoryId String
+    supplierId String
+    category Category @relation(fields: [categoryId], references: [id])
+    supplier Supplier @relation(fields: [supplierId], references: [id])
+    userActions UserAction[]
+}
+
+model UserAction {
+    id String @id @default(cuid())
+    actionType String
+    details String
+    quantityChange Int
+    created_at DateTime @default(now())
+    userId String
+    productId String
+    user User @relation(fields: [userId], references: [id])
+    product Product @relation(fields: [productId], references: [id])
 }
