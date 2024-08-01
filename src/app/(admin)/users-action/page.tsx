@@ -9,8 +9,18 @@ async function getData(): Promise<UsersAction[]> {
       action: "Retirada",
       product: "Arroz",
       product_id: "1",
+      quantity_change: 10,
+      created_at: "01/08/2024",
     },
-    // ...
+    {
+      id: "2",
+      name: "Weldo Junior",
+      action: "Entrada",
+      product: "Arroz",
+      product_id: "1",
+      quantity_change: 5,
+      created_at: "01/08/2024",
+    },
   ];
 }
 

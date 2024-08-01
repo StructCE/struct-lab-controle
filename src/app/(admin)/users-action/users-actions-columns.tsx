@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export type UsersAction = {
@@ -10,6 +10,8 @@ export type UsersAction = {
   action: "Retirada" | "Entrada" | "Criar" | "Editar";
   product: string;
   product_id: string;
+  quantity_change: number;
+  created_at: string;
 };
 
 export const columns: ColumnDef<UsersAction>[] = [
@@ -38,5 +40,13 @@ export const columns: ColumnDef<UsersAction>[] = [
   {
     accessorKey: "product_id",
     header: "Id do Produto",
+  },
+  {
+    accessorKey: "quantity_change",
+    header: "Quantidade",
+  },
+  {
+    accessorKey: "created_at",
+    header: "Data",
   },
 ];
