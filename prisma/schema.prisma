@@ -28,13 +28,11 @@ model Product {
   id              String       @id @default(cuid())
   name            String
   currentQuantity Int
-  minQuantity     Int
-  unitType        String
-  purchasePrice   Float
+  idealQuantity   Int
   manufactureDate DateTime
-  expirationDate  DateTime
   categoryId      String
   supplierId      String
+  publicId        String?
   category        Category     @relation(fields: [categoryId], references: [id])
   supplier        Supplier     @relation(fields: [supplierId], references: [id])
   userActions     UserAction[]
