@@ -5,6 +5,15 @@ import {
   type NextAuthOptions,
 } from "next-auth";
 import { db } from "@/server/db";
+import GoogleProvider from "next-auth/providers/google";
+import { env } from "@/env";
+
+function customPrismaAdapter(p: typeof db) {
+  return {
+    ...PrismaAdapter(p),
+    createUser: undefined,
+  };
+}
 
 declare module "next-auth" {
   interface Session extends DefaultSession {
@@ -26,10 +35,6 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    signIn: ({ user }) => {
-      if (user.email?.endsWith("@struct.unb.br")) return true;
-      return false;
-    },
     session: ({ session, user }) => ({
       ...session,
       user: {
@@ -38,8 +43,13 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   },
-  adapter: PrismaAdapter(db),
+  adapter: customPrismaAdapter(db),
   providers: [
+    GoogleProvider({
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
+      allowDangerousEmailAccountLinking: true,
+    }),
     /**
      * ...add more providers here.
      *
