@@ -5,111 +5,123 @@ import {
   protectedProcedure,
 } from "@/server/api/trpc";
 import { db } from "@/server/db";
+import * as ProductRepositoryInterface from "../../interfaces/product.repository.interface";
+import * as ProductRouteInterface from "../../interfaces/product.route.interface";
 
 export const productRouter = createTRPCRouter({
-  getProductPerStatus: adminProcedure.query(async () => {
-    const res: ProductsPerStatus = [];
-    const products = await db.product.findMany();
-    return res;
-  }),
+  getProductPerStatus: adminProcedure.query(
+    async (): Promise<
+      ProductRouteInterface.Response<ProductRouteInterface.ProductsPerStatus>
+    > => {
+      try {
+        const products = await db.product.findMany();
+        return { data: products, status: 200 };
+      } catch (e) {
+        return {
+          error: "deu alguma merda",
+          status: 400,
+        };
+      }
+    },
+  ),
 
   getFilteredProducts: protectedProcedure
-    .input(
-      z.object({
-        filter: z.object({
-          name: z.string(),
-          supplier: z.string(),
-          category: z.string(),
-        }),
-      }),
-    )
-    .query(async ({ input }) => {
-      const { filter } = input;
-      const filteredProducts = await db.product.findMany({
-        where: {
-          name: filter.name,
-          supplier: {
-            name: filter.supplier,
-          },
-          category: {
-            name: filter.category,
-          },
-        },
-      });
-      return filteredProducts;
-    }),
+    .input(ProductRepositoryInterface.getFilteredProps)
+    .query(
+      async ({
+        input,
+      }): Promise<
+        ProductRouteInterface.Response<ProductRouteInterface.Product[]>
+      > => {
+        try {
+          const filteredProducts = await db.product.findMany({
+            where: {
+              name: input.name,
+              supplier: {
+                name: input.supplier,
+              },
+              category: {
+                name: input.category,
+              },
+            },
+          });
+          return { data: filteredProducts, status: 200 };
+        } catch (e) {
+          return {
+            error: "deu alguma merda",
+            status: 400,
+          };
+        }
+      },
+    ),
 
   createProduct: adminProcedure
-    .input(
-      z.object({
-        name: z.string(),
-        productCode: z.string(),
-        categoryId: z.string(),
-        supplierId: z.string(),
-        currentQuantity: z.number(),
-        idealQuantity: z.number(),
-        manufactureDate: z.date(),
-        publicId: z.string().optional(),
-      }),
-    )
-    .mutation(async ({ input }) => {
-      const createdProduct = await db.product.create({
-        data: { ...input },
-      });
-      return createdProduct;
-    }),
+    .input(ProductRepositoryInterface.createProps)
+    .mutation(
+      async ({
+        input,
+      }): Promise<
+        ProductRouteInterface.Response<ProductRouteInterface.Product>
+      > => {
+        try {
+          const createdProduct = await db.product.create({
+            data: { ...input },
+          });
+          return { data: createdProduct, status: 200 };
+        } catch (e) {
+          return {
+            error: "deu alguma merda",
+            status: 400,
+          };
+        }
+      },
+    ),
 
   updateProduct: adminProcedure
-    .input(
-      z.object({
-        id: z.string(),
-        name: z.string().optional(),
-        productCode: z.string().optional(),
-        categoryId: z.string().optional(),
-        supplierId: z.string().optional(),
-        currentQuantity: z.number().optional(),
-        idealQuantity: z.number().optional(),
-        manufactureDate: z.date().optional(),
-        publicId: z.string().optional().optional(),
-      }),
-    )
-    .mutation(async ({ input }) => {
-      const { id, ...data } = input;
-      const updatedProduct = await db.product.update({
-        where: { id: id },
-        data: { ...data },
-      });
-      return updatedProduct;
-    }),
+    .input(ProductRepositoryInterface.updateProps)
+    .mutation(
+      async ({
+        input,
+      }): Promise<
+        ProductRouteInterface.Response<ProductRouteInterface.Product>
+      > => {
+        try {
+          const { id, ...data } = input;
+          const updatedProduct = await db.product.update({
+            where: { id: id },
+            data: { ...data },
+          });
+          return { data: updatedProduct, status: 200 };
+        } catch (e) {
+          return {
+            error: "deu alguma merda",
+            status: 400,
+          };
+        }
+      },
+    ),
 
   deleteProduct: adminProcedure
-    .input(z.object({ id: z.string() }))
-    .mutation(async ({ input }) => {
-      const deletedProduct = await db.product.delete({
-        where: {
-          id: input.id,
-        },
-      });
-      return deletedProduct;
-    }),
+    .input(ProductRepositoryInterface.deleteProps)
+    .mutation(
+      async ({
+        input,
+      }): Promise<
+        ProductRouteInterface.Response<ProductRouteInterface.Product>
+      > => {
+        try {
+          const deletedProduct = await db.product.delete({
+            where: {
+              id: input.id,
+            },
+          });
+          return { data: deletedProduct, status: 200 };
+        } catch (e) {
+          return {
+            error: "deu alguma merda",
+            status: 400,
+          };
+        }
+      },
+    ),
 });
-
-type ProductsPerStatus = {
-  status: string;
-  products: {
-    id: string;
-    name: string;
-    amount: number;
-  };
-}[];
-
-type Product = {
-  id: string;
-  name: string;
-  currentQuantity: number;
-  idealQuantity: number;
-  manufactureDate: Date;
-  categoryId: string;
-  supplierId: string;
-  publicId: string | null;
-};
