@@ -4,21 +4,38 @@ import {
   protectedProcedure,
 } from "@/server/api/trpc";
 import { db } from "@/server/db";
-import {
-  productRepositoryInterface,
-  ProductRepositoryInterface,
-} from "@/server/interfaces/product.repository.interface";
+import { productRepositoryInterface } from "@/server/interfaces/product.repository.interface";
 import type {
   ProductRouteInterface,
   Response,
 } from "@/server/interfaces/product.route.interface";
+import { ProductRepository } from "@/server/repositories/product.repository";
 
 export const productRouter = createTRPCRouter({
   getProductPerStatus: adminProcedure.query(
     async (): Promise<Response<ProductRouteInterface["ProductsPerStatus"]>> => {
       try {
-        const products = await db.product.findMany();
-        return { data: products, status: 200 };
+        const products = await ProductRepository.getAll();
+        const productsPerStatus: ProductRouteInterface["ProductsPerStatus"] = [
+          { status: "Crítico", products: [] }, // proporção |quantidadeAtual/quantidadeRecomendada - 1| <= 0,2
+          { status: "Regular", products: [] }, // proporção |quantidadeAtual/quantidadeRecomendada - 1| >= 0,2
+          { status: "Excedente", products: [] }, // proporção quantidadeAtual/quantidadeRecomendada - 1> 0,2
+        ];
+        products.forEach((product) => {
+          const serializedProduct = {
+            id: product.id,
+            name: product.name,
+            amount: product.currentQuantity,
+          };
+          if (product.currentQuantity / product.idealQuantity > 0.2)
+            return productsPerStatus[2]?.products.push(serializedProduct);
+          if (
+            Math.abs(product.currentQuantity / product.idealQuantity - 1) <= 0.2
+          )
+            return productsPerStatus[1]?.products.push(serializedProduct);
+          return productsPerStatus[0]?.products.push(serializedProduct);
+        });
+        return { data: productsPerStatus, status: 200 };
       } catch (e) {
         return {
           error: "deu alguma merda",

@@ -14,7 +14,7 @@ type ProductsPerStatus = {
     id: string;
     name: string;
     amount: number;
-  };
+  }[];
 }[];
 
 type Product = {
