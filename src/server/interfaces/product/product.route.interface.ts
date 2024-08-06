@@ -1,13 +1,3 @@
-type Response<T> =
-  | {
-      data: T;
-      status: number;
-    }
-  | {
-      error: string;
-      status: number;
-    };
-
 type ProductsPerStatus = {
   status: string;
   products: {
@@ -32,5 +22,3 @@ export type ProductRouteInterface = {
   ProductsPerStatus: ProductsPerStatus;
   Product: Product;
 };
-
-export type { Response };

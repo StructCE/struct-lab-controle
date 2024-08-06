@@ -1,5 +1,5 @@
 import { db } from "../db";
-import type { ProductRepositoryInterface } from "../interfaces/product.repository.interface";
+import type { ProductRepositoryInterface } from "../interfaces/product";
 const getAll = async () => await db.product.findMany();
 
 const getOne = async (props: ProductRepositoryInterface["GetOneProps"]) =>
