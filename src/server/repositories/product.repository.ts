@@ -1,5 +1,6 @@
 import { db } from "../db";
 import type { ProductRepositoryInterface } from "../interfaces/product";
+
 const getAll = async () => await db.product.findMany();
 
 const getOne = async (props: ProductRepositoryInterface["GetOneProps"]) =>
@@ -14,6 +15,14 @@ const getFiltered = async (
       category: { name: props.category },
       supplier: { name: props.supplier },
     },
+  });
+
+const countTotalProducts = async (
+  props?: ProductRepositoryInterface["CountTotalProductsProps"],
+) =>
+  await db.product.aggregate({
+    where: { name: props?.name },
+    _sum: { currentQuantity: true },
   });
 
 const create = async (props: ProductRepositoryInterface["CreateProps"]) =>
@@ -36,9 +45,10 @@ const remove = async (props: ProductRepositoryInterface["DeleteProps"]) =>
   await db.product.delete({ where: { id: props.id } });
 
 export const ProductRepository = {
+  getAll,
   getOne,
   getFiltered,
-  getAll,
+  countTotalProducts,
   create,
   update,
   remove,

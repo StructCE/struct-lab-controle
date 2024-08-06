@@ -6,7 +6,7 @@ import {
 import { db } from "@/server/db";
 import {
   type ProductRouteInterface,
-  productRepositoryInterface,
+  productRepositorySchema,
 } from "@/server/interfaces/product";
 import { ProductRepository } from "@/server/repositories/product.repository";
 import type { Response } from "@/server/interfaces/response.interface";
@@ -39,7 +39,7 @@ export const productRouter = createTRPCRouter({
   ),
 
   getFilteredProducts: protectedProcedure
-    .input(productRepositoryInterface.getFilteredProps)
+    .input(productRepositorySchema.getFilteredProps)
     .query(
       async ({
         input,
@@ -60,7 +60,7 @@ export const productRouter = createTRPCRouter({
     ),
 
   createProduct: adminProcedure
-    .input(productRepositoryInterface.createProps)
+    .input(productRepositorySchema.createProps)
     .mutation(
       async ({
         input,
@@ -73,7 +73,7 @@ export const productRouter = createTRPCRouter({
     ),
 
   updateProduct: adminProcedure
-    .input(productRepositoryInterface.updateProps)
+    .input(productRepositorySchema.updateProps)
     .mutation(
       async ({
         input,
@@ -88,7 +88,7 @@ export const productRouter = createTRPCRouter({
     ),
 
   deleteProduct: adminProcedure
-    .input(productRepositoryInterface.deleteProps)
+    .input(productRepositorySchema.deleteProps)
     .mutation(
       async ({
         input,

@@ -25,6 +25,12 @@ const updateProps = z.object({
   publicId: z.string().optional(),
 });
 
+const countTotalProductsProps = z.object({
+  name: z.string(),
+});
+
+type CountTotalProductsProps = z.infer<typeof countTotalProductsProps>;
+
 type UpdateProps = z.infer<typeof updateProps>;
 
 const createProps = z.object({
@@ -48,15 +54,17 @@ type DeleteProps = z.infer<typeof deleteProps>;
 export type ProductRepositoryInterface = {
   GetOneProps: GetOneProps;
   GetFilteredProps: GetFilteredProps;
+  CountTotalProductsProps: CountTotalProductsProps;
   UpdateProps: UpdateProps;
   CreateProps: CreateProps;
   DeleteProps: DeleteProps;
 };
 
-export const productRepositoryInterface = {
+export const productRepositorySchema = {
+  getOneProps,
   getFilteredProps,
+  countTotalProductsProps,
   updateProps,
   createProps,
-  getOneProps,
   deleteProps,
 };
