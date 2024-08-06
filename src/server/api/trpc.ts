@@ -12,6 +12,7 @@ import { ZodError } from "zod";
 
 import { db } from "@/server/db";
 import { getServerAuthSession } from "../auth";
+import { Prisma } from "@prisma/client";
 
 /**
  * 1. CONTEXT
@@ -87,9 +88,53 @@ export const createTRPCRouter = t.router;
  * guarantee that a user querying is authorized, but you can still access user session data if they
  * are logged in.
  */
-export const publicProcedure = t.procedure;
 
-export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
+type ErrorHandlingMiddlewareProps = {
+  path: string;
+  next: () => Promise<any>;
+};
+
+const errorHandlingMiddleware = async (props: ErrorHandlingMiddlewareProps) => {
+  const { path, next } = props;
+  try {
+    return await next();
+  } catch (error) {
+    console.error(`Error in ${path} procedure`, error);
+
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2025") {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Instância não encontrada",
+          cause: error,
+        });
+      }
+      if (error.code === "P2002") {
+        throw new TRPCError({
+          code: "CONFLICT",
+          message: "Instância com campo de valor único que já existe",
+          cause: error,
+        });
+      }
+    }
+    if (error instanceof Prisma.PrismaClientValidationError) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "Dados enviados da instância são inválidos",
+        cause: error,
+      });
+    }
+    throw new TRPCError({
+      code: "INTERNAL_SERVER_ERROR",
+      message: "Erro interno no servidor",
+      cause: error,
+    });
+  }
+};
+
+export const errorHandledProcedure = t.procedure.use(errorHandlingMiddleware);
+
+export const protectedProcedure = errorHandledProcedure.use(({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
@@ -101,7 +146,7 @@ export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
   });
 });
 
-export const adminProcedure = t.procedure.use(({ ctx, next }) => {
+export const adminProcedure = errorHandledProcedure.use(({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user || !ctx.session.user.isAdmin) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
