@@ -28,4 +28,9 @@ type Product = {
   publicId: string | null;
 };
 
-export type { Response, ProductsPerStatus, Product };
+export type ProductRouteInterface = {
+  ProductsPerStatus: ProductsPerStatus;
+  Product: Product;
+};
+
+export type { Response };

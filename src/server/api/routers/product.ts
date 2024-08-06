@@ -1,18 +1,21 @@
-import { z } from "zod";
 import {
   adminProcedure,
   createTRPCRouter,
   protectedProcedure,
 } from "@/server/api/trpc";
 import { db } from "@/server/db";
-import * as ProductRepositoryInterface from "../../interfaces/product.repository.interface";
-import * as ProductRouteInterface from "../../interfaces/product.route.interface";
+import {
+  productRepositoryInterface,
+  ProductRepositoryInterface,
+} from "@/server/interfaces/product.repository.interface";
+import type {
+  ProductRouteInterface,
+  Response,
+} from "@/server/interfaces/product.route.interface";
 
 export const productRouter = createTRPCRouter({
   getProductPerStatus: adminProcedure.query(
-    async (): Promise<
-      ProductRouteInterface.Response<ProductRouteInterface.ProductsPerStatus>
-    > => {
+    async (): Promise<Response<ProductRouteInterface["ProductsPerStatus"]>> => {
       try {
         const products = await db.product.findMany();
         return { data: products, status: 200 };
@@ -26,13 +29,11 @@ export const productRouter = createTRPCRouter({
   ),
 
   getFilteredProducts: protectedProcedure
-    .input(ProductRepositoryInterface.getFilteredProps)
+    .input(productRepositoryInterface.getFilteredProps)
     .query(
       async ({
         input,
-      }): Promise<
-        ProductRouteInterface.Response<ProductRouteInterface.Product[]>
-      > => {
+      }): Promise<Response<ProductRouteInterface["Product"][]>> => {
         try {
           const filteredProducts = await db.product.findMany({
             where: {
@@ -56,13 +57,11 @@ export const productRouter = createTRPCRouter({
     ),
 
   createProduct: adminProcedure
-    .input(ProductRepositoryInterface.createProps)
+    .input(productRepositoryInterface.createProps)
     .mutation(
       async ({
         input,
-      }): Promise<
-        ProductRouteInterface.Response<ProductRouteInterface.Product>
-      > => {
+      }): Promise<Response<ProductRouteInterface["Product"]>> => {
         try {
           const createdProduct = await db.product.create({
             data: { ...input },
@@ -78,13 +77,11 @@ export const productRouter = createTRPCRouter({
     ),
 
   updateProduct: adminProcedure
-    .input(ProductRepositoryInterface.updateProps)
+    .input(productRepositoryInterface.updateProps)
     .mutation(
       async ({
         input,
-      }): Promise<
-        ProductRouteInterface.Response<ProductRouteInterface.Product>
-      > => {
+      }): Promise<Response<ProductRouteInterface["Product"]>> => {
         try {
           const { id, ...data } = input;
           const updatedProduct = await db.product.update({
@@ -102,13 +99,11 @@ export const productRouter = createTRPCRouter({
     ),
 
   deleteProduct: adminProcedure
-    .input(ProductRepositoryInterface.deleteProps)
+    .input(productRepositoryInterface.deleteProps)
     .mutation(
       async ({
         input,
-      }): Promise<
-        ProductRouteInterface.Response<ProductRouteInterface.Product>
-      > => {
+      }): Promise<Response<ProductRouteInterface["Product"]>> => {
         try {
           const deletedProduct = await db.product.delete({
             where: {

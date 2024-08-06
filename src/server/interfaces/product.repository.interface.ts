@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { update } from "../repositories/product.repository";
 
 const getOneProps = z.object({
   id: z.string(),
@@ -46,12 +45,18 @@ const deleteProps = z.object({
 
 type DeleteProps = z.infer<typeof deleteProps>;
 
-export type {
-  GetOneProps,
-  GetFilteredProps,
-  UpdateProps,
-  CreateProps,
-  DeleteProps,
+export type ProductRepositoryInterface = {
+  GetOneProps: GetOneProps;
+  GetFilteredProps: GetFilteredProps;
+  UpdateProps: UpdateProps;
+  CreateProps: CreateProps;
+  DeleteProps: DeleteProps;
 };
 
-export { getFilteredProps, updateProps, createProps, getOneProps, deleteProps };
+export const productRepositoryInterface = {
+  getFilteredProps,
+  updateProps,
+  createProps,
+  getOneProps,
+  deleteProps,
+};
