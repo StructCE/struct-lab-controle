@@ -28,13 +28,52 @@ export const categoryRouter = createTRPCRouter({
               proportion: _sum.currentQuantity
                 ? totalCategoryProducts / _sum.currentQuantity
                 : 0,
-              incomeProportion: 0,
+              incomeProportion: 0, // nao ha precificacao ainda
             };
           });
         return { data: serializedCategories, status: 200 };
       },
     ),
+
   createCategory: adminProcedure
     .input(categoryRepositorySchema.createProps)
-    .mutation(({ input }) => {}),
+    .mutation(
+      async ({
+        input,
+      }): Promise<Response<CategoryRouteInterface["Category"]>> => {
+        const createdCategory = await categoryRepository.create(input);
+        return {
+          data: createdCategory,
+          status: 200,
+        };
+      },
+    ),
+
+  updateCategory: adminProcedure
+    .input(categoryRepositorySchema.updateProps)
+    .mutation(
+      async ({
+        input,
+      }): Promise<Response<CategoryRouteInterface["Category"]>> => {
+        const updatedCategory = await categoryRepository.update(input);
+        return {
+          data: updatedCategory,
+          status: 200,
+        };
+      },
+    ),
+
+  deleteCategory: adminProcedure
+    .input(categoryRepositorySchema.deleteProps)
+    .mutation(
+      async ({
+        input,
+      }): Promise<Response<CategoryRouteInterface["Category"]>> => {
+        const deletedCategory = await categoryRepository.remove(input);
+        return {
+          data: deletedCategory,
+          status: 200,
+        };
+      },
+    ),
 });

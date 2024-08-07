@@ -7,6 +7,13 @@ type Categories = {
   incomeProportion: number;
 }[];
 
+type Category = {
+  id: string;
+  name: string;
+  description: string;
+};
+
 export type CategoryRouteInterface = {
   Categories: Categories;
+  Category: Category;
 };
