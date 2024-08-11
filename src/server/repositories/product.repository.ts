@@ -44,7 +44,7 @@ const update = async (props: ProductRepositoryInterface["UpdateProps"]) => {
 const remove = async (props: ProductRepositoryInterface["DeleteProps"]) =>
   await db.product.delete({ where: { id: props.id } });
 
-export const ProductRepository = {
+export const productRepository = {
   getAll,
   getOne,
   getFiltered,
