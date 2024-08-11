@@ -27,8 +27,10 @@ model Supplier {
 model Product {
   id              String       @id @default(cuid())
   name            String
+  unitType        String?
   currentQuantity Int
   idealQuantity   Int
+  purchasePrice   Int?
   manufactureDate DateTime
   categoryId      String
   supplierId      String
