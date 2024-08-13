@@ -89,6 +89,7 @@ export const createTRPCRouter = t.router;
  * are logged in.
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 type ErrorHandlingMiddlewareProps = {
   path: string;
   next: () => Promise<any>;
@@ -97,6 +98,7 @@ type ErrorHandlingMiddlewareProps = {
 const errorHandlingMiddleware = async (props: ErrorHandlingMiddlewareProps) => {
   const { path, next } = props;
   try {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return await next();
   } catch (error) {
     console.error(`Error in ${path} procedure`, error);

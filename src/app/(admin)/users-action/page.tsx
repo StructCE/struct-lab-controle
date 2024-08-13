@@ -1,5 +1,5 @@
 import { DataTable } from "@/app/_components/data-table";
-import { UsersAction, columns } from "./users-actions-columns";
+import { type UsersAction, columns } from "./users-actions-columns";
 
 async function getData(): Promise<UsersAction[]> {
   return [
