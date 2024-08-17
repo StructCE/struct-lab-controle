@@ -5,6 +5,8 @@ import { Filtro } from "./filtro";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SearchBar } from "./searchBar";
+import { BtnRegister } from "./btnRegister";
 
 export function NavBarEstoque() {
   // Estado para armazenar o valor da aba ativa
@@ -40,19 +42,10 @@ export function NavBarEstoque() {
           </TabsTrigger>
         </TabsList>
         <div className="flex">
-          <Filtro />
-          <div className="relative mb-6 ml-7 flex w-full items-center justify-between">
-            <Search size={16} strokeWidth={1} className="absolute left-2" />
-            <Input
-              placeholder={`Pesquisar por ${tabValue}`}
-              className="w-[25rem] pl-10"
-            />
-            <Button
-              className="w-56 bg-black text-white hover:bg-slate-600 hover:text-white"
-              variant="outline"
-            >
-              Cadastrar {tabValue}
-            </Button>
+          <Filtro value={"ddd"} children={"ffff"} />
+          <div className="mb-6 ml-7 flex w-full items-center justify-between">
+            <SearchBar placeholder={tabValue}/>
+            <BtnRegister>{tabValue}</BtnRegister>
           </div>
         </div>
         <TabsContent value="Produtos">Produtos</TabsContent>

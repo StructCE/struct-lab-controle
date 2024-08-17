@@ -6,8 +6,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Filter } from "lucide-react";
-
-export function Filtro() {
+type FiltroProps ={
+  value: string;
+  children:string;
+}
+export function Filtro(props: FiltroProps) {
   return (
     <div>
       <Select>
@@ -19,6 +22,7 @@ export function Filtro() {
           <SelectItem value="light">Light</SelectItem>
           <SelectItem value="dark">Dark</SelectItem>
           <SelectItem value="system">System</SelectItem>
+          <SelectItem value={props.value}>{props.children}</SelectItem>
         </SelectContent>
       </Select>
     </div>
