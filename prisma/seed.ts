@@ -9,6 +9,18 @@ async function main() {
         isAdmin: true,
         name: "Matheus das Neves Fernandes",
       },
+      {
+        email: "kaleb.henrique@struct.unb.br",
+        emailVerified: new Date(),
+        isAdmin: true,
+        name: "Kaleb Henrique",
+      },
+      {
+        email: "weldo.silva@struct.unb.br",
+        emailVerified: new Date(),
+        isAdmin: false,
+        name: "Weldo Gonçalves da Silva Junior",
+      },
     ],
   });
   console.log(adminUsers);
