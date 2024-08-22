@@ -1,10 +1,18 @@
+"use client";
 import { redirect } from "next/navigation";
 import React from "react";
+import { useSession } from "next-auth/react";
 
-export default function AdminLayout(children: React.ReactNode) {
-  const userSession = undefined; // verificar se usuario ta logado e é admin
-  if (!userSession.is_admin) {
+type AdminLayoutProps = {
+  children: React.ReactNode;
+};
+
+export default function AdminLayout({ children }: AdminLayoutProps) {
+  const userSession = useSession();
+
+  if (!userSession.data?.user?.isAdmin) {
     return redirect("/");
   }
+
   return <>{children}</>;
 }
