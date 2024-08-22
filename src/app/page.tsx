@@ -1,9 +1,11 @@
-import { NavBarEstoque } from "./_components/navBarEstoque";
+import { FormsExample } from "@/components/formComponent/example";
+// import { NavBarEstoque } from "./_components/navBarEstoque";
 
 export default async function Home() {
   return (
     <main className="px-48">
-      <NavBarEstoque />
+      {/* <NavBarEstoque /> */}
+      <FormsExample></FormsExample>
     </main>
   );
 }
