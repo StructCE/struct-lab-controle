@@ -1,7 +1,7 @@
+"use strict";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { LogOut } from "lucide-react";
+import SignOutButton from "./sign-out-button";
 
 export async function NavBar() {
   return (
@@ -18,11 +18,7 @@ export async function NavBar() {
           <Link href="/historico">Histórico</Link>
           <Link href="#Usuarios">Usuários</Link>
         </ul>
-
-        <Button className="gap-2 bg-transparent text-base text-red-500 hover:bg-transparent">
-          <LogOut />
-          Sair
-        </Button>
+        <SignOutButton />
       </div>
     </div>
   );

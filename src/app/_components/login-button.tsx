@@ -5,7 +5,7 @@ import { signIn } from "next-auth/react";
 
 import { FcGoogle } from "react-icons/fc";
 
-export function LoginForm() {
+export function LoginButton() {
   return (
     <Button
       onClick={() => signIn("google", { callbackUrl: "/" })}

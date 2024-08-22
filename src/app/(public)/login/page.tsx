@@ -1,6 +1,6 @@
 "use client";
+import { LoginButton } from "@/app/_components/login-button";
 import CldImage from "@/components/app/cldImage";
-import { LoginForm } from "../_components/login-button";
 
 export default function Login() {
   return (
@@ -27,7 +27,7 @@ export default function Login() {
         </div>
         <div className="flex flex-1 flex-col items-center justify-center bg-white p-4">
           <div className="pb-10 text-2xl font-bold">Entre na sua conta</div>
-          <LoginForm />
+          <LoginButton />
         </div>
       </div>
     </>

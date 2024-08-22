@@ -1,4 +1,4 @@
-import { NavBarEstoque } from "./_components/navBarEstoque";
+import { NavBarEstoque } from "../_components/navBarEstoque";
 
 export default async function Home() {
   return (
