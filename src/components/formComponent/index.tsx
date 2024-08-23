@@ -1,18 +1,27 @@
 import { cn } from "@/lib/utils";
 import React, { type HTMLInputTypeAttribute } from "react";
 import { Checkbox } from "../ui/checkbox";
+import CldImage from "../app/cldImage";
+import type { CldImageProps } from "next-cloudinary";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 type FormProps = {
   className?: string;
   children: React.ReactNode[];
+  onCancel: () => void;
+  onSave: (data: any) => void;
 };
 
 export const Form = (props: FormProps) => {
   const style = cn(
-    "px-[55px] pt-[90px] pb-[40px] gap-[30px] flex flex-col justify-around border-[#E0E0E0] border-[2px] rounded-[20px]",
+    "flex flex-col justify-around border-[#E0E0E0] border-[2px] rounded-[20px]",
     props.className,
   );
-  return <div className={style}>{props.children}</div>;
+  return (
+    <form onSubmit={props.onSave} onReset={props.onCancel} className={style}>
+      {props.children}
+    </form>
+  );
 };
 
 type FormTitleProps = {
@@ -63,10 +72,10 @@ Form.Label = function FormLabel(props: FormLabelProps) {
 
 type FormInputProps = {
   className?: string;
-  placeholder: string;
+  placeholder?: string;
   value: string;
   setValue: (value: string) => void;
-  type: HTMLInputTypeAttribute;
+  type?: HTMLInputTypeAttribute;
 };
 
 Form.Input = function FormInput(props: FormInputProps) {
@@ -117,8 +126,7 @@ Form.BoxSelect = function FormBoxSelect(props: FormBoxSelectProps) {
 type FormButtonProps = {
   className?: string;
   children: string;
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  onClick: (data: any) => void;
+  onClick?: (data: any) => void;
   type?: "button" | "submit" | "reset" | undefined;
 };
 
@@ -133,3 +141,38 @@ Form.Button = function FormButton(props: FormButtonProps) {
     </button>
   );
 };
+
+type FormImageProps = {
+  className?: string;
+  publicId: string;
+  onImageInput: (image: any) => void;
+  imageProps?: CldImageProps;
+};
+
+Form.Image = function FormImage(props: FormImageProps) {
+  const style = cn(
+    "w-fit h-fit rounded-[8px] border-[2px] border-[#D9D9D9] flex items-start justify-center relative",
+    props.className,
+  );
+  return (
+    <div className={style}>
+      <input
+        type="file"
+        className="absolute top-[10px]"
+        onInput={(file) => props.onImageInput(file)}
+      ></input>
+      <CldImage
+        src={props.publicId}
+        alt="image"
+        crop={"auto"}
+        width={400}
+        height={400}
+        radius={8}
+        {...props.imageProps}
+      />
+    </div>
+  );
+};
+
+// Arrumar input de imagem
+// Fazer select

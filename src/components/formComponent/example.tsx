@@ -10,9 +10,33 @@ export const FormsExample = () => {
   const [checked1, setChecked1] = useState(false);
   const [checked2, setChecked2] = useState(false);
 
+  const onCancel = () => {
+    setName("");
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
+    setChecked1(false);
+    setChecked2(false);
+  };
+
+  const onSave = (data: {
+    name: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+    cheked1: string;
+    cheked2: string;
+  }) => {
+    console.log(data);
+  };
+
   return (
     <div className="flex h-full w-full items-center justify-center">
-      <Form>
+      <Form
+        onCancel={onCancel}
+        onSave={onSave}
+        className="gap-[30px] px-[55px] pb-[40px] pt-[90px]"
+      >
         <Form.Title>Criar Usuário</Form.Title>
         <Form.Content>
           <Form.Field>
@@ -75,7 +99,7 @@ export const FormsExample = () => {
         <Form.Button
           type="submit"
           onClick={() => console.log("criar usuario")}
-          className="border-none bg-[#34A853] text-white"
+          className="border-none bg-[#34A853]"
         >
           Criar Usuário
         </Form.Button>
