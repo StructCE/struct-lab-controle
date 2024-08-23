@@ -33,7 +33,7 @@ export const FormsExample = () => {
               placeholder="email"
               value={email}
               setValue={setEmail}
-              type="text"
+              type="email"
             ></Form.Input>
           </Form.Field>
 
@@ -72,6 +72,13 @@ export const FormsExample = () => {
             </Form.BoxSelect>
           </Form.Field>
         </Form.Content>
+        <Form.Button
+          type="submit"
+          onClick={() => console.log("criar usuario")}
+          className="border-none bg-[#34A853] text-white"
+        >
+          Criar Usuário
+        </Form.Button>
       </Form>
     </div>
   );

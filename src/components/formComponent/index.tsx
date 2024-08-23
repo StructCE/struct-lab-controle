@@ -1,7 +1,6 @@
 import { cn } from "@/lib/utils";
-import React, { HTMLInputTypeAttribute, InputHTMLAttributes } from "react";
+import React, { type HTMLInputTypeAttribute } from "react";
 import { Checkbox } from "../ui/checkbox";
-import { check } from "prettier";
 
 type FormProps = {
   className?: string;
@@ -117,10 +116,20 @@ Form.BoxSelect = function FormBoxSelect(props: FormBoxSelectProps) {
 
 type FormButtonProps = {
   className?: string;
-  placeholder: string;
+  children: string;
   /* eslint-disable @typescript-eslint/no-explicit-any */
   onClick: (data: any) => void;
+  type?: "button" | "submit" | "reset" | undefined;
 };
 
-// Fazer Label e Value (Input, Select, Box Select)
-// Fazer Button
+Form.Button = function FormButton(props: FormButtonProps) {
+  const style = cn(
+    "rounded-[8px] border-[2px] border-[#D9D9D9] py-[10px] items-center justify-center font-inter font-medium text-[16px] text-white bg-primary",
+    props.className,
+  );
+  return (
+    <button className={style} onClick={props.onClick} type={props.type}>
+      {props.children}
+    </button>
+  );
+};
