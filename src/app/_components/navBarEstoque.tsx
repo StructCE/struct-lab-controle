@@ -1,10 +1,7 @@
-"use client"
-import { SetStateAction, useState } from "react";
+"use client";
+import { type SetStateAction, useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Filtro } from "./filtro";
-import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { SearchBar } from "./searchBar";
 import { BtnRegister } from "./btnRegister";
 
@@ -42,9 +39,9 @@ export function NavBarEstoque() {
           </TabsTrigger>
         </TabsList>
         <div className="flex">
-          <Filtro value={"ddd"} children={"ffff"} />
+          <Filtro value={"ddd"}>ffff</Filtro>
           <div className="mb-6 ml-7 flex w-full items-center justify-between">
-            <SearchBar placeholder={tabValue}/>
+            <SearchBar placeholder={tabValue} />
             <BtnRegister>{tabValue}</BtnRegister>
           </div>
         </div>
