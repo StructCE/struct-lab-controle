@@ -1,4 +1,4 @@
-import { CldImage } from "@/components/app/cldImage";
+import CldImage from "@/components/app/cldImage";
 import { CardComponent } from "@/components/cardComponent";
 import { cn } from "@/lib/utils";
 import React from "react";

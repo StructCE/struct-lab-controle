@@ -31,7 +31,7 @@ import {
 } from "@/components/ui/table";
 import { DataTablePagination } from "./data-table-pagination";
 
-const columnTranslations = {
+const columnTranslations: Record<string, string> = {
   name: "Nome",
   action: "Ação",
   product: "Nome do Produto",
@@ -95,8 +95,9 @@ export function DataTable<TData, TValue>({
               .getAllColumns()
               .filter((column) => column.getCanHide())
               .map((column) => {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                 const translatedName =
-                  columnTranslations[column.id] || column.id;
+                  columnTranslations[column.id] ?? column.id;
                 return (
                   <DropdownMenuCheckboxItem
                     key={column.id}
