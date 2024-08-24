@@ -3,6 +3,7 @@ import React, { type HTMLInputTypeAttribute } from "react";
 import { Checkbox } from "../ui/checkbox";
 import CldImage from "../app/cldImage";
 import type { CldImageProps } from "next-cloudinary";
+import { Edit } from "lucide-react";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 type FormProps = {
@@ -156,11 +157,16 @@ Form.Image = function FormImage(props: FormImageProps) {
   );
   return (
     <div className={style}>
-      <input
-        type="file"
-        className="absolute top-[10px]"
-        onInput={(file) => props.onImageInput(file)}
-      ></input>
+      <label className="absolute top-[10px] flex cursor-pointer items-center justify-center gap-[4px] rounded-[8px] bg-[#EEEEEE] p-[10px]">
+        <Edit size={19}></Edit>
+        <p className="font-inter text-[16px] font-medium">Editar Foto</p>
+        <input
+          type="file"
+          className="hidden"
+          onInput={(file) => props.onImageInput(file)}
+        ></input>
+      </label>
+
       <CldImage
         src={props.publicId}
         alt="image"
@@ -173,6 +179,3 @@ Form.Image = function FormImage(props: FormImageProps) {
     </div>
   );
 };
-
-// Arrumar input de imagem
-// Fazer select
